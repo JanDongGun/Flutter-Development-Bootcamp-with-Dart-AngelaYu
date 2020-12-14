@@ -11,6 +11,25 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   String curValue = 'USD';
+  var curNum;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUI();
+  }
+
+  void getUI() async {
+    CoinData coinData = CoinData();
+    var data = await coinData.getCoinData();
+
+    if (data == null) {
+      curNum = 0;
+    } else {
+      curNum = data['last'];
+    }
+  }
 
   List<DropdownMenuItem> getDropDownItem() {
     List<DropdownMenuItem<String>> dropDownItem = [];
@@ -47,7 +66,7 @@ class _PriceScreenState extends State<PriceScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ? USD',
+                  '1 BTC = $curNum USD',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
